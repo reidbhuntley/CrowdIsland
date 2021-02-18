@@ -1,4 +1,7 @@
-extends Node
+extends Node2D
+
+export var line_color = Color("6680ff")
+export var line_width = 5.0
 
 var player_selected = null
 var player_just_selected = null
@@ -16,6 +19,25 @@ func _ready():
 				var clickable = body.get_node("Clickable")
 				clickable.connect("player_selected", self, "_on_Player_selected")
 				clickable.connect("player_unlinked", self, "_on_Player_unlinked")
+
+
+func _draw():
+	var visited = []
+	for player in players_tree.keys():
+		draw_links(player, visited)
+
+func draw_links(start, visited):
+	visited.append(start)
+	var info = players_tree[start]
+	var group = info["group"]
+	var start_pos = group.group_pos+group.player_offsets[start]
+	for link in info["links"]:
+		if not visited.has(link):
+			draw_line(
+				start_pos, group.group_pos+group.player_offsets[link],
+				line_color, line_width
+			)
+			draw_links(link, visited)
 
 
 func _on_Player_selected(player):
@@ -41,6 +63,8 @@ func _process(_delta):
 		player_selected = null
 	
 	player_just_selected = null
+	
+	update()
 
 
 func link_players(parent_body, child_body):

@@ -15,8 +15,10 @@ var on_floor = false
 # group_pos as the values
 var player_offsets = {}
 
+
 func players():
 	return player_offsets.keys()
+
 
 func add_player(player):
 	if player.get_parent() != self:
@@ -26,6 +28,7 @@ func add_player(player):
 		player.add_collision_exception_with(other)
 		other.add_collision_exception_with(player)
 
+
 func remove_player(player):
 	for other in players():
 		player.remove_collision_exception_with(other)
@@ -33,12 +36,14 @@ func remove_player(player):
 	player_offsets.erase(player)
 	remove_child(player)
 
+
 func _ready():
 	for child in get_children():
 		if child.is_in_group("PlayerBody"):
 			child.position += position
 			add_player(child)
 	position = Vector2.ZERO
+
 
 func _physics_process(delta):
 	# determine horizontal move direction
