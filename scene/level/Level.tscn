@@ -30,7 +30,8 @@ position = Vector2( 269.987, 361.855 )
 position = Vector2( 145.164, 388.873 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2( 506.372, 313.574 )
+position = Vector2( 501.239, 361.828 )
+scale = Vector2( 1, 0.6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource( 1 )

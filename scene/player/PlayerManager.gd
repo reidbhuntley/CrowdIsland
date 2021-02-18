@@ -5,6 +5,9 @@ export var line_width = 5.0
 
 var player_selected = null
 var player_just_selected = null
+
+# keeps track of every player, which group they're currently in, and
+# which other players they're currently linked to
 var players_tree = {}
 
 
@@ -16,28 +19,10 @@ func _ready():
 					"group": child,
 					"links": []
 				}
+				# connect Clickable signals so we know when a player has been clicked
 				var clickable = body.get_node("Clickable")
 				clickable.connect("player_selected", self, "_on_Player_selected")
 				clickable.connect("player_unlinked", self, "_on_Player_unlinked")
-
-
-func _draw():
-	var visited = []
-	for player in players_tree.keys():
-		draw_links(player, visited)
-
-func draw_links(start, visited):
-	visited.append(start)
-	var info = players_tree[start]
-	var group = info["group"]
-	var start_pos = group.group_pos+group.player_offsets[start]
-	for link in info["links"]:
-		draw_line(
-			start_pos, group.group_pos+group.player_offsets[link],
-			line_color, line_width
-		)
-		if not visited.has(link):
-			draw_links(link, visited)
 
 
 func _on_Player_selected(player):
@@ -127,3 +112,23 @@ func reparent_links(start, new_group, visited):
 	for link in info["links"]:
 		if not visited.has(link):
 			reparent_links(link, new_group, visited)
+
+
+# recursively draw all links between players
+func _draw():
+	var visited = []
+	for player in players_tree.keys():
+		draw_links(player, visited)
+
+func draw_links(start, visited):
+	visited.append(start)
+	var info = players_tree[start]
+	var group = info["group"]
+	var start_pos = group.group_pos+group.player_offsets[start]
+	for link in info["links"]:
+		draw_line(
+			start_pos, group.group_pos+group.player_offsets[link],
+			line_color, line_width
+		)
+		if not visited.has(link):
+			draw_links(link, visited)

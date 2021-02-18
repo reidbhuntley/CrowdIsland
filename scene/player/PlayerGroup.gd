@@ -11,6 +11,9 @@ var group_pos = Vector2.ZERO
 var velocity = Vector2.ZERO
 var on_floor = false
 
+var rejump_frames_max = 4
+var rejump_frames = 0
+
 # stores the players of this group as the keys, and their offsets from
 # group_pos as the values
 var player_offsets = {}
@@ -68,7 +71,7 @@ func _physics_process(delta):
 	for player in players():
 		# try moving each group member, see how far they went, then reset them
 		var temp_pos = player.position
-		var clipped = player.move_and_slide(velocity, Vector2.UP)
+		var clipped = player.move_and_slide(velocity)
 		player.position = temp_pos
 		
 		# find the min. distance traveled across the group members
@@ -76,15 +79,34 @@ func _physics_process(delta):
 			new_velocity.x = clipped.x
 		if abs(clipped.y) < abs(new_velocity.y):
 			new_velocity.y = clipped.y
-		if player.is_on_floor():
-			on_floor = true
+		
+		# check if we're on the floor, or on a player who's on the floor
+		if not on_floor:
+			for i in player.get_slide_count():
+				var collision = player.get_slide_collision(i)
+				var slope = collision.normal.angle_to(Vector2.UP)
+				var collider = collision.collider
+				if abs(slope) < PI/4 and (
+					not collider.is_in_group("PlayerBody")
+					or collider.get_parent().on_floor
+				):
+					on_floor = true
+					break
 	
 	velocity = new_velocity
 	group_pos += velocity*delta
 	# now actually move the group members to their correct position
 	for player in players():
-		player.position = group_pos + player_offsets[player]
+		player.move_and_collide(group_pos + player_offsets[player] - player.position)
+	
+	# this is to prevent players stacked on top of each other from bonking
+	# into each other and losing all their vertical momentum
+	if rejump_frames > 0:
+		rejump_frames -= 1
+		if velocity.y >= 0.0:
+			velocity.y = jump_speed
 	
 	# allow jump if any group member is on floor
 	if on_floor and Input.is_action_just_pressed("player_jump"):
-			velocity.y = jump_speed
+		velocity.y = jump_speed
+		rejump_frames = rejump_frames_max
