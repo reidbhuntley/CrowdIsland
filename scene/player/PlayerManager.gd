@@ -32,11 +32,11 @@ func draw_links(start, visited):
 	var group = info["group"]
 	var start_pos = group.group_pos+group.player_offsets[start]
 	for link in info["links"]:
+		draw_line(
+			start_pos, group.group_pos+group.player_offsets[link],
+			line_color, line_width
+		)
 		if not visited.has(link):
-			draw_line(
-				start_pos, group.group_pos+group.player_offsets[link],
-				line_color, line_width
-			)
 			draw_links(link, visited)
 
 
@@ -73,19 +73,21 @@ func link_players(parent_body, child_body):
 	var parent_group = parent_info["group"]
 	var child_group = child_info["group"]
 	
-	# check if linking these players would create a cycle
-	if parent_group.players().has(child_body):
+	# check if these players are already linked
+	if parent_info["links"].has(child_body):
 		return false
 	
-	# move all players from child's group to parent's group
-	for body in child_group.players():
-		child_group.remove_player(body)
-		parent_group.add_player(body)
-		players_tree[body]["group"] = parent_group
-	# average velocity of groups
-	parent_group.velocity = (parent_group.velocity + child_group.velocity)*0.5
-	# get rid of child group since it's now empty
-	child_group.queue_free()
+	# if these players aren't already in the same group then we need to reparent
+	if not parent_group.players().has(child_body):
+		# move all players from child's group to parent's group
+		for body in child_group.players():
+			child_group.remove_player(body)
+			parent_group.add_player(body)
+			players_tree[body]["group"] = parent_group
+		# average velocity of groups
+		parent_group.velocity = (parent_group.velocity + child_group.velocity)*0.5
+		# get rid of child group since it's now empty
+		child_group.queue_free()
 	
 	# keep track of the link made between these two players
 	parent_info["links"].append(child_body)
@@ -97,22 +99,25 @@ var group_script = preload("res://scene/player/PlayerGroup.gd")
 func unlink_player(body):
 	var info = players_tree[body]	
 	var links = info["links"]
+	var visited = [body]
 	for link in links:
 		# remove all links going into this player
 		var link_links = players_tree[link]["links"]
 		link_links.remove(link_links.find(body))
 		
-		# create a new group and recursively add all players connected
-		# through the current link to it
-		var new_group = Node2D.new()
-		new_group.set_script(group_script)
-		add_child(new_group)
-		reparent_links(link, new_group, [link])
+		if not visited.has(link):
+			# create a new group and recursively add all players connected
+			# through the current link to it
+			var new_group = Node2D.new()
+			new_group.set_script(group_script)
+			add_child(new_group)
+			reparent_links(link, new_group, visited)
 	
 	# remove all links going out of this player
 	links.clear()
 
 func reparent_links(start, new_group, visited):
+	visited.append(start)
 	var info = players_tree[start]
 	var old_group = info["group"]
 	old_group.remove_player(start)
@@ -121,5 +126,4 @@ func reparent_links(start, new_group, visited):
 	
 	for link in info["links"]:
 		if not visited.has(link):
-			visited.append(link)
 			reparent_links(link, new_group, visited)

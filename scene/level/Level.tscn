@@ -26,6 +26,9 @@ position = Vector2( 306.829, 342.908 )
 [node name="PlayerGroup3" parent="PlayerManager" instance=ExtResource( 1 )]
 position = Vector2( 269.987, 361.855 )
 
+[node name="PlayerGroup5" parent="PlayerManager" instance=ExtResource( 1 )]
+position = Vector2( 145.164, 388.873 )
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2( 506.372, 313.574 )
 
