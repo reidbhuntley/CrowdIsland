@@ -97,7 +97,7 @@ func _physics_process(delta):
 	group_pos += velocity*delta
 	# now actually move the group members to their correct position
 	for player in players():
-		player.move_and_collide(group_pos + player_offsets[player] - player.position)
+		player.move_and_slide((group_pos + player_offsets[player] - player.position)/delta)
 	
 	# this is to prevent players stacked on top of each other from bonking
 	# into each other and losing all their vertical momentum

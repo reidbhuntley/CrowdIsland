@@ -1,16 +1,16 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://alligator.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Hazards/alligator.gd" type="Script" id=1]
+
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 3.0
-height = 76.0
+radius = 34.0
+height = 170.0
 
-[node name="Arrow" type="Area2D"]
+[node name="Alligator" type="Area2D"]
 
-[node name="Arrow" type="Sprite" parent="."]
+[node name="Alligator" type="Sprite" parent="."]
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
-rotation = 1.5708
 shape = SubResource( 1 )
 script = ExtResource( 1 )
