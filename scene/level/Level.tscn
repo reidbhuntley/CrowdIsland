@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scene/player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://img/icon.png" type="Texture" id=2]
+[ext_resource path="res://scene/player/PlayerManager.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 128 )
+
+[node name="Node2D" type="Node2D"]
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
+
+[node name="PlayerManager" parent="." instance=ExtResource( 3 )]
+
+[node name="PlayerGroup" parent="PlayerManager" instance=ExtResource( 1 )]
+position = Vector2( 241.48, 321.237 )
+
+[node name="PlayerGroup4" parent="PlayerManager" instance=ExtResource( 1 )]
+position = Vector2( 204.724, 337.645 )
+
+[node name="PlayerGroup2" parent="PlayerManager" instance=ExtResource( 1 )]
+position = Vector2( 306.829, 342.908 )
+
+[node name="PlayerGroup3" parent="PlayerManager" instance=ExtResource( 1 )]
+position = Vector2( 269.987, 361.855 )
+
+[node name="PlayerGroup5" parent="PlayerManager" instance=ExtResource( 1 )]
+position = Vector2( 145.164, 388.873 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 501.239, 361.828 )
+scale = Vector2( 1, 0.6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+scale = Vector2( 0.5, 4 )
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2( 486.652, 479.905 )
+rotation = 1.57079
+scale = Vector2( 2.88, 3.68 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D2"]
+scale = Vector2( 0.5, 4 )
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2( 269.53, 414.262 )
+rotation = 1.57079
+scale = Vector2( -1.26407, -0.504478 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D3"]
+scale = Vector2( 0.5, 4 )
+texture = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 285.6, 328.44 )
+current = true
+zoom = Vector2( 0.5, 0.5 )
