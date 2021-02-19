@@ -3,8 +3,11 @@ extends Node2D
 export var line_color = Color("6680ff")
 export var line_width = 5.0
 
-var player_selected = null
-var player_just_selected = null
+export var link_range = 72.0
+var line_length = link_range*0.85
+
+var select_first = null
+var select_new = null
 
 # keeps track of every player, which group they're currently in, and
 # which other players they're currently linked to
@@ -26,8 +29,8 @@ func _ready():
 
 
 func _on_Player_selected(player):
-	if player_just_selected == null:
-		player_just_selected = player
+	if select_new == null:
+		select_new = player
 
 
 func _on_Player_unlinked(player):
@@ -35,19 +38,20 @@ func _on_Player_unlinked(player):
 
 
 func _process(_delta):
-	if player_just_selected != null:
-		if player_selected != null and player_selected != player_just_selected:
+	if select_new != null:
+		if select_first != null and select_first != select_new:
 			# two different players have been selected so try to link them
-			if link_players(player_selected, player_just_selected):
-				player_selected = null
+			if select_first.position.distance_to(select_new.position) <= link_range:
+				link_players(select_first, select_new)
+			select_first = null
 		else:
 			# only one player has been selected so far so keep track of them
-			player_selected = player_just_selected
+			select_first = select_new
 	elif Input.is_action_just_pressed("player_deselect"):
 		# a click was made but a player wasn't selected, so we should deselect
-		player_selected = null
+		select_first = null
 	
-	player_just_selected = null
+	select_new = null
 	
 	update()
 
@@ -59,7 +63,7 @@ func link_players(parent_body, child_body):
 	var child_group = child_info["group"]
 	
 	# check if these players are already linked
-	if parent_info["links"].has(child_body):
+	if parent_body == child_body or parent_info["links"].has(child_body):
 		return false
 	
 	# if these players aren't already in the same group then we need to reparent
@@ -116,18 +120,25 @@ func reparent_links(start, new_group, visited):
 
 # recursively draw all links between players
 func _draw():
+	if select_first != null:
+		var start_pos = select_first.position
+		var change_pos = get_global_mouse_position() - start_pos
+		if change_pos.length() > line_length:
+			change_pos = change_pos.normalized()*line_length
+		draw_line(
+			start_pos, start_pos + change_pos,
+			line_color, line_width
+		)
+	
 	var visited = []
 	for player in players_tree.keys():
 		draw_links(player, visited)
 
 func draw_links(start, visited):
 	visited.append(start)
-	var info = players_tree[start]
-	var group = info["group"]
-	var start_pos = group.group_pos+group.player_offsets[start]
-	for link in info["links"]:
+	for link in players_tree[start]["links"]:
 		draw_line(
-			start_pos, group.group_pos+group.player_offsets[link],
+			start.position, link.position,
 			line_color, line_width
 		)
 		if not visited.has(link):
