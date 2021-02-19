@@ -84,7 +84,7 @@ func link_players(parent_body, child_body):
 	return true
 
 
-var group_script = preload("res://scene/player/PlayerGroup.gd")
+var group_script = preload("res://Scenes/Player/PlayerGroup.gd")
 func unlink_player(body):
 	var info = players_tree[body]	
 	var links = info["links"]
