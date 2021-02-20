@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Scenes/Hazards/alligator.gd" type="Script" id=1]
 
-
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 34.0
 height = 170.0
