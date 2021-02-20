@@ -1,4 +1,4 @@
-extends CollisionShape2D
+extends Hazard
 
 export var speed : int = 100
 export var moveDist : int = 100
