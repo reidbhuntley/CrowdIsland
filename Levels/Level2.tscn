@@ -50,10 +50,11 @@ tile_data = PoolIntArray( 655380, 0, 327683, 720911, 0, 196608, 720916, 0, 32768
 [node name="PlayerManager" parent="." instance=ExtResource( 3 )]
 
 [node name="PlayerGroup" parent="PlayerManager" instance=ExtResource( 1 )]
-position = Vector2( 232, 288 )
+position = Vector2( 264, 528 )
 
 [node name="PlayerGroup2" parent="PlayerManager" instance=ExtResource( 1 )]
-position = Vector2( 208, 288 )
+position = Vector2( 240, 528 )
 
 [node name="Camera" parent="." instance=ExtResource( 10 )]
-position = Vector2( 456, 416 )
+position = Vector2( 312, 456 )
+zoom = Vector2( 0.42, 0.42 )

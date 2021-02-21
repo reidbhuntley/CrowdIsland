@@ -69,7 +69,8 @@ func _process(_delta):
 			bounds = Rect2(pos, Vector2.ZERO)
 		else:
 			bounds = bounds.expand(pos)
-	emit_signal("player_bounds_updated", bounds)
+	if bounds != null:
+		emit_signal("player_bounds_updated", bounds)
 	
 	update()
 

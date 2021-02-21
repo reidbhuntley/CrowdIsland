@@ -1,4 +1,6 @@
-extends Node2D
+extends Hazard
 
 func _physics_process(delta):
-	position.x -= 10 
+	position.x -= 100.0*delta
+	if position.x > 1000.0:
+		queue_free()

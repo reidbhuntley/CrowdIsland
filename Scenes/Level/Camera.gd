@@ -17,15 +17,18 @@ func _ready():
 	var size = Vector2(size_x, size_x / screen_size.aspect())
 	bounds_init = Rect2(global_position - 0.5*size, size)
 
-func update_target(bounds):
-	var target = bounds_init.merge(bounds)
+func update_target(target):
 	pos_target = target.position + target.size*0.5
 	
+	var target_size = Vector2(
+		max(target.size.x, bounds_init.size.x),
+		max(target.size.y, bounds_init.size.y)
+	)
 	var screen_size = get_viewport().size
-	if target.size.aspect() > screen_size.aspect():
-		zoom_target = target.size.x / screen_size.x
+	if target_size.aspect() > screen_size.aspect():
+		zoom_target = target_size.x / screen_size.x
 	else:
-		zoom_target = target.size.y / screen_size.y
+		zoom_target = target_size.y / screen_size.y
 
 func _physics_process(delta):
 	global_position += (pos_target - global_position)*pos_speed
