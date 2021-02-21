@@ -43,6 +43,8 @@ func _on_Player_killed(player):
 	unlink_player(player)
 	players_tree[player]["group"].queue_free()
 	players_tree.erase(player)
+	if players_tree.empty():
+		get_tree().reload_current_scene()
 
 
 func _process(_delta):
@@ -162,3 +164,4 @@ func draw_links(start, visited):
 		)
 		if not visited.has(link):
 			draw_links(link, visited)
+		
