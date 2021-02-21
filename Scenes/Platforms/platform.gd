@@ -1,22 +1,22 @@
-extends CollisionShape2D
+extends Node2D
 
 export var speed : int = 100
 export var moveDist : int = 100
 
-onready var startX : float = position.x
-onready var targetX : float = position.x + moveDist
+onready var startY : float = position.y
+onready var targetY : float = position.y + moveDist
 
 func _physics_process(delta):
 	
-	# move to the "targetX" position
-	position.x = move_to(position.x, targetX, speed * delta)
+	# move to the "targetY" position
+	position.y = move_to(position.y, targetY, speed * delta)
 	
 	# if we're at our target, move in the other direction
-	if position.x == targetX:
-		if targetX == startX:
-			targetX = position.x + moveDist
+	if position.y == targetY:
+		if targetY == startY:
+			targetY = position.y + moveDist
 		else:
-			targetX = startX
+			targetY = startY
 			
 # moves "current" towards "to" in an increment of "step"
 func move_to (current, to, step):
