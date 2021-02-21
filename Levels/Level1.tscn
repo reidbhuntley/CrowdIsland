@@ -4,7 +4,7 @@
 [ext_resource path="res://Levels/Background/Background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Player/PlayerManager.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Levels/Background/Flag.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Imports/1 Tiles/Tiles.tres" type="TileSet" id=5]
+[ext_resource path="res://Imports/Swamp/1 Tiles/Tiles.tres" type="TileSet" id=5]
 [ext_resource path="res://Scenes/Level/LevelBase.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/Level/Camera.tscn" type="PackedScene" id=7]
 
@@ -13,7 +13,9 @@ script = ExtResource( 6 )
 
 [node name="Background" parent="." instance=ExtResource( 2 )]
 
-[node name="Flag" parent="." instance=ExtResource( 4 )]
+[node name="Obstacles" type="Node2D" parent="."]
+
+[node name="Flag" parent="Obstacles" instance=ExtResource( 4 )]
 position = Vector2( 544, 360 )
 
 [node name="TileMap" type="TileMap" parent="."]

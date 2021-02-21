@@ -9,10 +9,10 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Area2D",
+"base": "Reference",
 "class": "Hazard",
 "language": "GDScript",
-"path": "res://Scenes/Hazards/Hazard.gd"
+"path": "res://Scenes/Hazards/Scripts/Hazard.gd"
 } ]
 _global_script_class_icons={
 "Hazard": ""

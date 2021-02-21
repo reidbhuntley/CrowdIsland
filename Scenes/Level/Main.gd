@@ -1,16 +1,17 @@
 extends Node
 
 var levels = [
+	preload("res://Levels/Opening.tscn"),
 	preload("res://Levels/Level1.tscn"),
-	preload("res://Levels/Level1.tscn")
+	preload("res://Levels/Level2.tscn"),
+	preload("res://Levels/Level3.tscn"),
+	preload("res://Levels/Level4.tscn"),
+	preload("res://Levels/Level5.tscn"),
 ]
 
-onready var cur_level = null
-var cur_level_idx = -1
+onready var cur_level = $LevelContainer/Opening
+var cur_level_idx = 0
 var loading = false
-
-func _ready():
-	begin_load_level(0)
 
 func next_level():
 	begin_load_level(cur_level_idx+1)
@@ -36,3 +37,9 @@ func _on_Fade_animation_finished(anim_name):
 	elif anim_name == "fade_in":
 		get_tree().paused = false
 		loading = false
+
+
+func _on_StartButton_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_mask & BUTTON_LEFT != 0:
+			next_level()

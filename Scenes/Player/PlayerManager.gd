@@ -42,6 +42,7 @@ func _on_Player_unlinked(player):
 func _on_Player_killed(player):
 	unlink_player(player)
 	players_tree[player]["group"].queue_free()
+	players_tree.erase(player)
 
 
 func _process(_delta):

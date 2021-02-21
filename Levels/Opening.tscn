@@ -1,7 +1,7 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Imports/Text/Title.PNG" type="Texture" id=1]
-[ext_resource path="res://Levels/Background/Background_Ground.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Levels/Background/Background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Imports/Text/StartButton.PNG" type="Texture" id=3]
 [ext_resource path="res://Imports/Text/Settings.PNG" type="Texture" id=4]
 [ext_resource path="res://Imports/Swamp/1 Tiles/Tiles.tres" type="TileSet" id=5]
@@ -20,6 +20,9 @@
 [ext_resource path="res://Imports/Swamp/3 Objects/Fence/1.png" type="Texture" id=18]
 [ext_resource path="res://Imports/Swamp/3 Objects/Fence/2.png" type="Texture" id=19]
 [ext_resource path="res://Imports/Swamp/3 Objects/Grass/9.png" type="Texture" id=20]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 36, 16 )
 
 [node name="Level2" type="Node2D"]
 
@@ -61,10 +64,15 @@ position = Vector2( 560, 471 )
 scale = Vector2( 0.167373, 0.167373 )
 texture = ExtResource( 4 )
 
-[node name="StartButton" type="Sprite" parent="Buttons"]
+[node name="StartButton" type="Area2D" parent="Buttons"]
 position = Vector2( 368, 472 )
+
+[node name="StartButton" type="Sprite" parent="Buttons/StartButton"]
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/StartButton"]
+shape = SubResource( 1 )
 
 [node name="ComingSoonGrass" type="Sprite" parent="."]
 position = Vector2( 520, 480 )
@@ -259,7 +267,7 @@ cell_size = Vector2( 32, 32 )
 format = 1
 tile_data = PoolIntArray( 524294, 0, 3, 524295, 0, 4, 524296, 0, 4, 524297, 0, 4, 524298, 0, 4, 524299, 0, 4, 524300, 0, 4, 524301, 0, 4, 524302, 0, 4, 524303, 0, 4, 524304, 0, 4, 524305, 0, 4, 524306, 0, 4, 524307, 0, 4, 524308, 0, 4, 524309, 0, 4, 524310, 0, 5, 589830, 0, 65538, 589846, 0, 65536, 655366, 0, 65538, 655382, 0, 65536, 720902, 0, 65538, 720918, 0, 65536, 786438, 0, 65538, 786441, 0, 262152, 786442, 0, 7, 786443, 0, 7, 786444, 0, 7, 786445, 0, 7, 786446, 0, 7, 786447, 0, 7, 786448, 0, 7, 786449, 0, 7, 786450, 0, 7, 786451, 0, 327688, 786454, 0, 65536, 851974, 0, 65538, 851990, 0, 65536, 917510, 0, 65538, 917526, 0, 65536, 983046, 0, 65538, 983050, 0, 6, 983051, 0, 7, 983052, 0, 8, 983056, 0, 6, 983057, 0, 7, 983058, 0, 8, 983062, 0, 65536, 1048582, 0, 65538, 1048598, 0, 65536, 1114118, 0, 131075, 1114119, 0, 1, 1114120, 0, 1, 1114121, 0, 1, 1114122, 0, 1, 1114123, 0, 1, 1114124, 0, 1, 1114125, 0, 1, 1114126, 0, 1, 1114127, 0, 1, 1114128, 0, 1, 1114129, 0, 1, 1114130, 0, 1, 1114131, 0, 1, 1114132, 0, 1, 1114133, 0, 1, 1114134, 0, 131077 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
 position = Vector2( 456, 416 )
 current = true
 zoom = Vector2( 0.5, 0.5 )
