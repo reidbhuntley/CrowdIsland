@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Hazards/Scripts/tree.gd" type="Script" id=1]
 [ext_resource path="res://Imports/Swamp/3 Objects/Willows/3.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Hazards/TreeFall.tscn" type="PackedScene" id=3]
 
 [node name="Tree" type="Node2D"]
 scale = Vector2( -1, 1 )
@@ -12,12 +11,8 @@ script = ExtResource( 1 )
 position = Vector2( 0, -88 )
 texture = ExtResource( 2 )
 
-[node name="TreeFall" parent="." instance=ExtResource( 3 )]
-show_behind_parent = true
-position = Vector2( -80, -96 )
+[node name="LeftTimer" type="Timer" parent="."]
 
-[node name="TreeFall2" parent="." instance=ExtResource( 3 )]
-show_behind_parent = true
-position = Vector2( -16, -64 )
-
-[node name="Timer" type="Timer" parent="."]
+[node name="RightTimer" type="Timer" parent="."]
+[connection signal="timeout" from="LeftTimer" to="." method="_on_LeftTimer_timeout"]
+[connection signal="timeout" from="RightTimer" to="." method="_on_RightTimer_timeout"]
