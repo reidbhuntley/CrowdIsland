@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scenes/Level/Camera.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Background/Background.tscn" type="PackedScene" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Scenes/Hazards/Tree.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Hazards/Cannon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Hazards/Pig.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Player/PlayerGroup.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Player/PlayerManager.tscn" type="PackedScene" id=10]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -41,3 +43,12 @@ tile_data = PoolIntArray( 786443, 0, 0, 786444, 0, 1, 786445, 0, 2, 786448, 0, 6
 
 [node name="Camera" parent="." instance=ExtResource( 1 )]
 position = Vector2( 456, 416 )
+
+[node name="PlayerManager" parent="." instance=ExtResource( 10 )]
+position = Vector2( 450.358, 405.494 )
+
+[node name="PlayerGroup" parent="PlayerManager" instance=ExtResource( 9 )]
+position = Vector2( -216.131, 76.2814 )
+
+[node name="PlayerGroup2" parent="PlayerManager" instance=ExtResource( 9 )]
+position = Vector2( -188.585, 38.1407 )

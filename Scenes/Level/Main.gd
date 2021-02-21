@@ -7,6 +7,7 @@ var levels = [
 	preload("res://Levels/Level3.tscn"),
 	preload("res://Levels/Level4.tscn"),
 	preload("res://Levels/Level5.tscn"),
+	preload("res://Levels/Ending.tscn"),
 ]
 
 onready var cur_level = $LevelContainer/Opening
@@ -26,7 +27,7 @@ func begin_load_level(level_idx):
 
 func _on_Fade_animation_finished(anim_name):
 	if not loading:
-		return
+		return 
 	if anim_name == "fade_out":
 		if cur_level != null:
 			cur_level.queue_free()
@@ -42,4 +43,10 @@ func _on_Fade_animation_finished(anim_name):
 func _on_StartButton_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_mask & BUTTON_LEFT != 0:
+			next_level()
+
+func _on_RetryButton_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_mask & BUTTON_LEFT != 0:
+			cur_level_idx = 0
 			next_level()

@@ -1,12 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Level/Camera.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Background/Background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Level/LevelBase.gd" type="Script" id=3]
 [ext_resource path="res://Levels/Background/Flag.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Imports/Swamp/1 Tiles/Tiles.tres" type="TileSet" id=5]
+[ext_resource path="res://Scenes/Player/PlayerGroup.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Hazards/Cannon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Hazards/Pig.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Player/PlayerManager.tscn" type="PackedScene" id=9]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -41,3 +43,15 @@ tile_data = PoolIntArray( 655377, 0, 196609, 655378, 0, 262144, 655379, 0, 1, 65
 
 [node name="Camera" parent="." instance=ExtResource( 1 )]
 position = Vector2( 456, 416 )
+
+[node name="PlayerManager" parent="." instance=ExtResource( 9 )]
+position = Vector2( 440, 408 )
+
+[node name="PlayerGroup" parent="PlayerManager" instance=ExtResource( 6 )]
+position = Vector2( -208, 104 )
+
+[node name="PlayerGroup2" parent="PlayerManager" instance=ExtResource( 6 )]
+position = Vector2( -208, 120 )
+
+[node name="PlayerGroup3" parent="PlayerManager" instance=ExtResource( 6 )]
+position = Vector2( -216, 112 )
