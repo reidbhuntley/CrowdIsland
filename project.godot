@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="CrowdIsland"
-run/main_scene="res://Scenes/Level/Level.tscn"
+run/main_scene="res://Scenes/Level/Main.tscn"
 config/icon="res://Imports/Placeholder/icon.png"
 
 [importer_defaults]
