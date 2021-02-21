@@ -1,10 +1,12 @@
 extends Node2D
 
+signal player_bounds_updated(bounds)
+
 export var line_color = Color("6680ff")
 export var line_width = 5.0
 
-export var link_range = 72.0
-var line_length = link_range*0.85
+export var link_range = 64.0
+var line_length = max(link_range - 10.0, 0.0)
 
 var select_first = null
 var select_new = null
@@ -22,6 +24,8 @@ func _ready():
 					"group": child,
 					"links": []
 				}
+				# connect PlayerBody signal so we know when a player dies
+				body.connect("player_killed", self, "_on_Player_killed")
 				# connect Clickable signals so we know when a player has been clicked
 				var clickable = body.get_node("Clickable")
 				clickable.connect("player_selected", self, "_on_Player_selected")
@@ -32,9 +36,12 @@ func _on_Player_selected(player):
 	if select_new == null:
 		select_new = player
 
-
 func _on_Player_unlinked(player):
 	unlink_player(player)
+
+func _on_Player_killed(player):
+	unlink_player(player)
+	players_tree[player]["group"].queue_free()
 
 
 func _process(_delta):
@@ -52,6 +59,16 @@ func _process(_delta):
 		select_first = null
 	
 	select_new = null
+	
+	# let the Camera know the bounds of all current player bodies
+	var bounds = null
+	for body in players_tree.keys():
+		var pos = body.global_position
+		if bounds == null:
+			bounds = Rect2(pos, Vector2.ZERO)
+		else:
+			bounds = bounds.expand(pos)
+	emit_signal("player_bounds_updated", bounds)
 	
 	update()
 
@@ -86,7 +103,7 @@ func link_players(parent_body, child_body):
 
 var group_script = preload("res://Scenes/Player/PlayerGroup.gd")
 func unlink_player(body):
-	var info = players_tree[body]	
+	var info = players_tree[body]
 	var links = info["links"]
 	var visited = [body]
 	for link in links:
