@@ -1,5 +1,7 @@
 extends Node2D
 
+onready var animation = get_node("PlayerBody/Sprite")
+
 var move_speed = 160
 var jump_speed = -300
 var gravity = 800
